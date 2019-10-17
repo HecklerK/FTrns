@@ -57,14 +57,10 @@ namespace FTrns
                 t = PingCheck(ipn);
                 if (t != null)
                 {
-                    ip[i, 2] = t;
-                    if (ip[i, 1] == null)
-                    {
-
-                    }
-                    
-                    
+                    ip[i, 0] = t;
+                    ip[i, 1] = t;
                     i++;
+                    UpdList();
                 }
                 ipn = null;
             }
@@ -108,6 +104,21 @@ namespace FTrns
             }
             string ipnum = Adapters().Substring(0, 10);
             StartAsync(ipnum, 0, 255);
+        }
+
+        private void UpdList()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                list1.Items.Clear();
+            });
+                for (int i = 0; i < ip.Length / 2; i++)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    list1.Items.Add(ip[i, 0]);
+                });
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
