@@ -13,12 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Collections;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
 using System.Threading;
 using TcpSendFiles;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FTrns
 {
@@ -27,6 +30,8 @@ namespace FTrns
     /// </summary>
     public partial class MainWindow : Window
     {
+        TcpModule _tcpmodule = new TcpModule();
+        static int port = 8005;
         string[,] ip = new string[255, 2];
         bool c = true;
 
@@ -98,8 +103,7 @@ namespace FTrns
         {
             if (c)
             {
-                TcpModule ts = new TcpModule();
-                ts.Start();
+                _tcpmodule.StartServer();
                 c = false;
             }
             string ipnum = Adapters().Substring(0, 10);
@@ -126,15 +130,17 @@ namespace FTrns
             OpenFileDialog dlg = new OpenFileDialog();
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                //_tcpmodule.SendFileName = dlg.FileName;
+                _tcpmodule.SendFileName = dlg.FileName;
             }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //_tcpmodule.ConnectClient((string)list1.SelectedItem);
-            //Thread t = new Thread(_tcpmodule.SendData);
-            //t.Start();
+            _tcpmodule.CloseSocket();
+            c = true;
+            _tcpmodule.ConnectClient(ip[list1.SelectedIndex, 0]);
+            Thread t = new Thread(_tcpmodule.SendData);
+            t.Start();
         }
     }
 }
