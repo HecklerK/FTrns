@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FTrns"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="#FF3C3C3C" Foreground="White" Activated="Check">
+        Title="FTrns" Height="320" Width="340" Background="#FF3C3C3C" Foreground="Red" Activated="Check" ResizeMode="NoResize" WindowStyle="ToolWindow" BorderThickness="0" WindowStartupLocation="CenterOwner" Margin="0">
     <Grid>
-        <ListBox x:Name="list1" HorizontalAlignment="Left" Height="257" Margin="10,136,0,0" VerticalAlignment="Top" Width="275" FontSize="36"/>
-        <Button Content="Выбор файла" HorizontalAlignment="Left" Margin="46,45,0,0" VerticalAlignment="Top" Width="80" Click="Button_Click"/>
-        <Button Content="Отправка файла" HorizontalAlignment="Left" Margin="147,45,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click_1"/>
-
+        <ListBox x:Name="list1" Margin="10,35,9,7" FontSize="36"/>
+        <Button Content="Выбор файла" Margin="10,10,219,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Отправить" Margin="115,10,114,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Отправить всем" Margin="220,10,9,0" VerticalAlignment="Top" Click="Button_Click_1"/>
     </Grid>
 </Window>

@@ -214,17 +214,9 @@ namespace TcpSendFiles
         public string SendFileName = null;
         public void SendData()
         {
-            // Состав отсылаемого универсального сообщения
-            // 1. Заголовок о следующим объектом класса подробной информации дальнейших байтов
-            // 2. Объект класса подробной информации о следующих байтах
-            // 3. Байты непосредственно готовых к записи в файл или для чего-то иного.
-
             SendInfo si = new SendInfo();
-            Thread.Sleep(1000);
-
-            //  Если нет сообщения и отсылаемого файла продолжать процедуру отправки нет смысла.
+            Thread.Sleep(10);
             if (String.IsNullOrEmpty(SendFileName) == true) return;
-
             if (SendFileName != null)
             {
                 FileInfo fi = new FileInfo(SendFileName);
@@ -235,7 +227,6 @@ namespace TcpSendFiles
                 }
                 fi = null;
             }
-
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream ms = new MemoryStream();
             bf.Serialize(ms, si);
@@ -243,13 +234,10 @@ namespace TcpSendFiles
             byte[] infobuffer = new byte[ms.Length];
             int r = ms.Read(infobuffer, 0, infobuffer.Length);
             ms.Close();
-
             byte[] header = GetHeader(infobuffer.Length);
             byte[] total = new byte[header.Length + infobuffer.Length + si.filesize];
-
             Buffer.BlockCopy(header, 0, total, 0, header.Length);
             Buffer.BlockCopy(infobuffer, 0, total, header.Length, infobuffer.Length);
-
             // Если путь файла указан, добавим его содержимое в отправляемый массив байтов
             if (si.filesize > 0)
             {
@@ -258,12 +246,10 @@ namespace TcpSendFiles
                 fs.Close();
                 fs = null;
             }
-
             // Отправим данные подключенным клиентам
             NetworkStream ns = _tcpClient.tcpClient.GetStream();
             // Так как данный метод вызывается в отдельном потоке рациональней использовать синхронный метод отправки
             ns.Write(total, 0, total.Length);
-
             // Обнулим все ссылки на многобайтные объекты и попробуем очистить память
             header = null;
             infobuffer = null;
@@ -271,25 +257,16 @@ namespace TcpSendFiles
             SendFileName = null;
             GC.Collect();
             GC.WaitForPendingFinalizers();
-
             // Подтверждение успешной отправки
             MessageBox.Show("Данные успешно отправлены!");
         }
 
-
-        /// <summary>
-        /// Универсальный метод останавливающий работу сервера и закрывающий все сокетыю
-        /// вызывается в событии закрытия родительской формы.
-        /// </summary>
         public void CloseSocket()
         {
             StopServer();
             DisconnectClient();
         }
 
-        /// <summary>
-        /// Звуковое сопровождение ошибок.
-        /// </summary>
         private void SoundError()
         {
             Console.Beep(3000, 30);
@@ -314,18 +291,13 @@ namespace TcpSendFiles
             {
                 _tcpClient = new TcpClientData();
                 _tcpClient.tcpClient = listener.EndAcceptTcpClient(ar);
-               
-
                 // Немедленно запускаем асинхронный метод извлечения сетевых данных
                 // для акцептированного TCP клиента
                 NetworkStream ns = _tcpClient.tcpClient.GetStream();
                 _tcpClient.buffer = new byte[global.LENGTHHEADER];
                 ns.BeginRead(_tcpClient.buffer, 0, _tcpClient.buffer.Length, new AsyncCallback(ReadCallback), _tcpClient);
-
-
                 // Продолжаем ждать запросы на подключение
                 listener.BeginAcceptTcpClient(AcceptCallback, listener);
-
                 // Активация события успешного подключения клиента
                 if (Accept != null)
                 {
@@ -339,10 +311,6 @@ namespace TcpSendFiles
             }
         }
 
-
-        /// <summary>
-        /// Метод вызываемый при завершении попытки поключения клиента
-        /// </summary>
         public void ConnectCallback(IAsyncResult ar)
         {
             string result = "Подключение успешно!";
@@ -373,29 +341,22 @@ namespace TcpSendFiles
                 Connected.BeginInvoke(this, result, null, null);
         }
 
-
         /// <summary>
         /// Метод асинхронно вызываемый при наличие данных в буферах приема.
         /// </summary>
-
         public void ReadCallback(IAsyncResult ar)
         {
             if (modeNetwork == Mode.indeterminately) return;
-
             TcpClientData myTcpClient = (TcpClientData)ar.AsyncState;
-
             try
             {
                 NetworkStream ns = myTcpClient.tcpClient.GetStream();
-
                 int r = ns.EndRead(ar);
-
                 if (r > 0)
                 {
                     // Из главного заголовка получим размер массива байтов информационного объекта
                     string header = Encoding.Default.GetString(myTcpClient.buffer);
                     int leninfo = int.Parse(header);
-
                     // Получим и десериализуем объект с подробной информацией о содержании получаемого сетевого пакета
                     MemoryStream ms = new MemoryStream(leninfo);
                     byte[] temp = new byte[leninfo];
@@ -405,7 +366,6 @@ namespace TcpSendFiles
                     ms.Position = 0;
                     SendInfo sc = (SendInfo)bf.Deserialize(ms);
                     ms.Close();
-
                     if (sc.filesize > 0)
                     {
                         // Создадим файл на основе полученной информации и массива байтов следующих за объектом информации
@@ -414,10 +374,8 @@ namespace TcpSendFiles
                         {
                             temp = new byte[global.MAXBUFFER];
                             r = ns.Read(temp, 0, temp.Length);
-
                             // Записываем строго столько байтов сколько прочтено методом Read()
                             fs.Write(temp, 0, r);
-
                             // Как только получены все байты файла, останавливаем цикл,
                             // иначе он заблокируется в ожидании новых сетевых данных
                             if (fs.Length == sc.filesize)
@@ -428,63 +386,33 @@ namespace TcpSendFiles
                             }
                         }
                         while (r > 0);
-
                         temp = null;
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
                     }
-
-                   
-                    
-
-                    if (Receive != null)
-                        Receive(this, new ReceiveEventArgs(sc));
-
+                    if (Receive != null) Receive(this, new ReceiveEventArgs(sc));
                     myTcpClient.buffer = new byte[global.LENGTHHEADER];
                     ns.BeginRead(myTcpClient.buffer, 0, myTcpClient.buffer.Length, new AsyncCallback(ReadCallback), myTcpClient);
-
                 }
                 else
                 {
                     DeleteClient(myTcpClient);
-
                     // Событие клиент отключился
-                    if (Disconnected != null)
-                        Disconnected.BeginInvoke(this, "Клиент отключился!", null, null);
+                    if (Disconnected != null) Disconnected.BeginInvoke(this, "Клиент отключился!", null, null);
                 }
             }
             catch (Exception e)
             {
 
                 DeleteClient(myTcpClient);
-
-
                 // Событие клиент отключился
-                if (Disconnected != null)
-                    Disconnected.BeginInvoke(this, "Клиент отключился аварийно!", null, null);
-
+                if (Disconnected != null) Disconnected.BeginInvoke(this, "Клиент отключился аварийно!", null, null);
                 SoundError();
-
             }
-
         }
-
-
         #endregion
-
     }
 
-    
-    
-    ///////////////////////////////////////////////////////////////////////////
-    // ВСПОМОГАТЕЛЬНЫЕ КЛАССЫ ДЛЯ ОРГАНИЗАЦИИ СЕТЕВОЙ РАБОТЫ TCP МОДУЛЯ
-    ///////////////////////////////////////////////////////////////////////////
-
-    /// <summary>
-    /// Класс для организации непрерывного извлечения сетевых данных,
-    /// для чего необходимо, как минимум, одновременно TcpClient
-    /// и буфер приема.
-    /// </summary>
     class TcpClientData
     {
         public TcpClient tcpClient = new TcpClient();
@@ -498,18 +426,10 @@ namespace TcpSendFiles
         }
     }
 
-
-    /// <summary>
-    /// Класс для отправки текстового сообщения и 
-    /// информации о пересылаемых байтах следующих последними в потоке сетевых данных.
-    /// </summary>
     [Serializable]
     class SendInfo
     {
         public string filename;
         public int filesize;
     }
-
-    ///////////////////////////////////////////////////////////////////////////
-
 }

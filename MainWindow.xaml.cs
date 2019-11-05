@@ -1,27 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Net;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Collections;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
 using System.Threading;
 using TcpSendFiles;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FTrns
 {
@@ -31,7 +14,6 @@ namespace FTrns
     public partial class MainWindow : Window
     {
         TcpModule _tcpmodule = new TcpModule();
-        static int port = 8005;
         string[,] ip = new string[255, 2];
         bool c = true;
 
