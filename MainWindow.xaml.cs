@@ -73,7 +73,7 @@ namespace FTrns
                     }
                 }
             }
-            return null;
+            return "192.168.0.1";
         }
 
         async void StartAsync(string ipn, int a, int b)
