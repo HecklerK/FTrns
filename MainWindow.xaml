@@ -1,4 +1,4 @@
-﻿<Window x:Class="FTrns.MainWindow"
+<Window x:Class="FTrns.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,14 @@
         mc:Ignorable="d"
         Title="FTrns" Height="320" Width="340" Background="#FF3C3C3C" Foreground="Red" Activated="Check" ResizeMode="NoResize" WindowStyle="ToolWindow" BorderThickness="0" WindowStartupLocation="CenterOwner" Margin="0">
     <Grid>
-        <ListBox x:Name="list1" Margin="10,35,9,7" FontSize="36"/>
+        <ListBox x:Name="list1" Margin="10,35,9,7" FontSize="36">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить адрес">
+                    </MenuItem>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
         <Button Content="Выбор файла" Margin="10,10,219,0" VerticalAlignment="Top" Click="Button_Click"/>
         <Button Content="Отправить" Margin="115,10,114,0" VerticalAlignment="Top" Click="Button_Click_1"/>
         <Button Content="Отправить всем" Margin="220,10,9,0" VerticalAlignment="Top" Click="Button_Click_1"/>
