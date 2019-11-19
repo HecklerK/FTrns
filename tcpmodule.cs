@@ -369,6 +369,7 @@ namespace TcpSendFiles
                     if (sc.filesize > 0)
                     {
                         // Создадим файл на основе полученной информации и массива байтов следующих за объектом информации
+                        sc.filename = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + sc.filename;
                         FileStream fs = new FileStream(sc.filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite, sc.filesize);
                         do
                         {
