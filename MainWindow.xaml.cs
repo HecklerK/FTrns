@@ -15,7 +15,7 @@ namespace FTrns
     public partial class MainWindow : Window
     {
         TcpModule _tcpmodule = new TcpModule();
-        public string[,] ip = new string[255, 2];
+        public string[,] ip = new string[256, 2];
         bool c = true;
 
         public MainWindow()
@@ -51,8 +51,8 @@ namespace FTrns
                         if (ip[p, 0] == t)
                         {
                             add = true;
-                            ip[p, 0] = t;
-                            ip[p, 1] = t;
+                            ip[p, 0] = ipn;
+                            ip[p, 1] = ipn;
                             i++;
                             UpdList();
                             break;
@@ -65,8 +65,8 @@ namespace FTrns
                             if (ip[p, 0] == null)
                             {
                                 add = true;
-                                ip[p, 0] = t;
-                                ip[p, 1] = t;
+                                ip[p, 0] = ipn;
+                                ip[p, 1] = ipn;
                                 i++;
                                 UpdList();
                                 break;
@@ -151,14 +151,13 @@ namespace FTrns
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            _tcpmodule.StopServer();
-            c = true;
-            _tcpmodule.ConnectClient(ip[list1.SelectedIndex, 1]);
-            Thread t = new Thread(_tcpmodule.SendData);
-            t.Start();
             try
             {
-                
+                _tcpmodule.CloseSocket();
+                c = true;
+                _tcpmodule.ConnectClient(ip[list1.SelectedIndex, 1]);
+                Thread t = new Thread(_tcpmodule.SendData);
+                t.Start();
             }
             catch (Exception m)
             {
@@ -209,7 +208,7 @@ namespace FTrns
                     UpdList();
                 }
             }
-            catch (Exception m)
+            catch
             { 
             }
         }
