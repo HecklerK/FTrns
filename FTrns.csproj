@@ -56,8 +56,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddIP.xaml.cs">
+      <DependentUpon>AddIP.xaml</DependentUpon>
+    </Compile>
     <Compile Include="global.cs" />
     <Compile Include="tcpmodule.cs" />
+    <Page Include="AddIP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
