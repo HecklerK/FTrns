@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using System.Windows.Forms;
@@ -7,7 +6,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Text;
-using System.Drawing;
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -119,7 +118,7 @@ namespace TcpSendFiles
             }
             else
             {
-                SoundError(); 
+                
             }
         }
 
@@ -149,7 +148,6 @@ namespace TcpSendFiles
             {
                 _tcpClient = new TcpClientData();
                 _tcpClient.tcpClient.BeginConnect(IPAddress.Parse(ipserver), 15000, new AsyncCallback(ConnectCallback), _tcpClient);
-
                 modeNetwork = Mode.Client;
             }
             else
@@ -215,7 +213,6 @@ namespace TcpSendFiles
         public void SendData()
         {
             SendInfo si = new SendInfo();
-            Thread.Sleep(100);
             if (String.IsNullOrEmpty(SendFileName) == true) return;
             if (SendFileName != null)
             {
@@ -247,18 +244,26 @@ namespace TcpSendFiles
                 fs = null;
             }
             // Отправим данные подключенным клиентам
-            NetworkStream ns = _tcpClient.tcpClient.GetStream();
+            try
+            {
+                NetworkStream ns = _tcpClient.tcpClient.GetStream();
+                ns.Write(total, 0, total.Length);
+                header = null;
+                infobuffer = null;
+                total = null;
+                SendFileName = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                // Подтверждение успешной отправки
+                MessageBox.Show("Файл отправился!");
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось отправить файл");
+            }
             // Так как данный метод вызывается в отдельном потоке рациональней использовать синхронный метод отправки
-            ns.Write(total, 0, total.Length);
             // Обнулим все ссылки на многобайтные объекты и попробуем очистить память
-            header = null;
-            infobuffer = null;
-            total = null;
-            SendFileName = null;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            // Подтверждение успешной отправки
-            MessageBox.Show("Данные успешно отправлены!");
+            StartServer();
         }
 
         public void CloseSocket()
@@ -284,11 +289,10 @@ namespace TcpSendFiles
         /// </summary>
         public void AcceptCallback(IAsyncResult ar)
         {
-            if (modeNetwork == Mode.indeterminately) return;
-
-            TcpListener listener = (TcpListener)ar.AsyncState;
             try
             {
+                if (modeNetwork == Mode.indeterminately) return;
+                TcpListener listener = (TcpListener)ar.AsyncState;
                 _tcpClient = new TcpClientData();
                 _tcpClient.tcpClient = listener.EndAcceptTcpClient(ar);
                 // Немедленно запускаем асинхронный метод извлечения сетевых данных
@@ -326,7 +330,7 @@ namespace TcpSendFiles
                 ns.BeginRead(myTcpClient.buffer, 0, myTcpClient.buffer.Length, new AsyncCallback(ReadCallback), myTcpClient);
 
             }
-            catch (Exception e)
+            catch
             {
                 //MessageBox.Show(e.Message);
                 // Обработка ошибок подключения
@@ -394,6 +398,7 @@ namespace TcpSendFiles
                     if (Receive != null) Receive(this, new ReceiveEventArgs(sc));
                     myTcpClient.buffer = new byte[global.LENGTHHEADER];
                     ns.BeginRead(myTcpClient.buffer, 0, myTcpClient.buffer.Length, new AsyncCallback(ReadCallback), myTcpClient);
+                    StartServer();
                 }
                 else
                 {
@@ -402,7 +407,7 @@ namespace TcpSendFiles
                     if (Disconnected != null) Disconnected.BeginInvoke(this, "Клиент отключился!", null, null);
                 }
             }
-            catch (Exception e)
+            catch
             {
 
                 DeleteClient(myTcpClient);

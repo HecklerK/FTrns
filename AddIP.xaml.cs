@@ -34,18 +34,20 @@ namespace FTrns
 
         private void Add(object sender, RoutedEventArgs e)
         {
-            if (t_ip.Text == "Не правильный ip")
-            for (int i = 0; i < 256; i++)
+            if (t_ip.Text != "Не правильный ip")
             {
-                if (mainwindow.ip[i, 0] == null && mainwindow.ip[i, 1] == null)
+                for (int i = 0; i < 256; i++)
                 {
-                    mainwindow.ip[i, 0] = t_name.Text;
-                    mainwindow.ip[i, 1] = t_ip.Text;
-                    break;
+                    if (mainwindow.ip[i, 0] == null && mainwindow.ip[i, 1] == null)
+                    {
+                        mainwindow.ip[i, 0] = t_name.Text;
+                        mainwindow.ip[i, 1] = t_ip.Text;
+                        break;
+                    }
                 }
+                mainwindow.UpdList();
+                this.Close();
             }
-            mainwindow.UpdList();
-            this.Close();
         }
 
         private void t_ip_GotFocus(object sender, RoutedEventArgs e)
@@ -69,10 +71,10 @@ namespace FTrns
             if (ip.Length < 4) t_ip.Text = "Не правильный ip";
             else
             {
-                if (Convert.ToInt32(ip[0]) >= 0 & Convert.ToInt32(ip[0]) < 256) t_ip.Text = "Не правильный ip";
-                if (Convert.ToInt32(ip[1]) >= 0 & Convert.ToInt32(ip[0]) < 256) t_ip.Text = "Не правильный ip";
-                if (Convert.ToInt32(ip[2]) >= 0 & Convert.ToInt32(ip[0]) < 256) t_ip.Text = "Не правильный ip";
-                if (Convert.ToInt32(ip[3]) >= 0 & Convert.ToInt32(ip[0]) < 256) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[0]) <= 0 || Convert.ToInt32(ip[0]) > 255) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[1]) <= 0 || Convert.ToInt32(ip[1]) > 255) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[2]) <= 0 || Convert.ToInt32(ip[2]) > 255) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[3]) <= 0 || Convert.ToInt32(ip[3]) > 255) t_ip.Text = "Не правильный ip";
             }
         }
     }
