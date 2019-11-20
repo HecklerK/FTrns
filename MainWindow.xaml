@@ -5,18 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FTrns"
         mc:Ignorable="d"
-        Title="FTrns" Height="320" Width="340" Background="#FF3C3C3C" Foreground="Red" Activated="Check" ResizeMode="NoResize" WindowStyle="ToolWindow" BorderThickness="0" WindowStartupLocation="CenterOwner" Margin="0">
+        Title="FTrns" Height="320" Width="340" Background="#FF3C3C3C" Foreground="Red" Activated="Check" ResizeMode="NoResize" WindowStyle="ToolWindow" BorderThickness="0" WindowStartupLocation="CenterOwner" Margin="0" Closed="Window_Closed" Loaded="Window_Loaded">
     <Grid>
-        <ListBox x:Name="list1" Margin="10,35,9,7" FontSize="36">
+        <ListBox x:Name="list1" Margin="10,35,9,7" FontSize="36" Background="#FFC10000" Foreground="White" BorderBrush="White">
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Добавить адрес">
+                    <MenuItem Header="Добавить адрес" Click="MenuItem_Click">
                     </MenuItem>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
-        <Button Content="Выбор файла" Margin="10,10,219,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="Отправить" Margin="115,10,114,0" VerticalAlignment="Top" Click="Button_Click_1"/>
-        <Button Content="Отправить всем" Margin="220,10,9,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Выбор файла" Margin="10,10,219,0" VerticalAlignment="Top" Click="Button_Click" Background="#FFC10000" Foreground="White" BorderBrush="White"/>
+        <Button Content="Отправить" Margin="115,10,114,0" VerticalAlignment="Top" Click="Button_Click_1" Background="#FFC10000" Foreground="White" BorderBrush="White"/>
+        <Button Content="Отправить всем" Margin="220,10,9,0" VerticalAlignment="Top" Click="AllSend" Background="#FFC10000" Foreground="White" BorderBrush="White"/>
     </Grid>
 </Window>

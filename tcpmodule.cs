@@ -215,7 +215,7 @@ namespace TcpSendFiles
         public void SendData()
         {
             SendInfo si = new SendInfo();
-            Thread.Sleep(10);
+            Thread.Sleep(100);
             if (String.IsNullOrEmpty(SendFileName) == true) return;
             if (SendFileName != null)
             {
@@ -369,7 +369,7 @@ namespace TcpSendFiles
                     if (sc.filesize > 0)
                     {
                         // Создадим файл на основе полученной информации и массива байтов следующих за объектом информации
-                        sc.filename = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + sc.filename;
+                        sc.filename = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\" + sc.filename;
                         FileStream fs = new FileStream(sc.filename, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite, sc.filesize);
                         do
                         {
