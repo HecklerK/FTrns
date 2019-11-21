@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -17,6 +17,7 @@ namespace FTrns
         TcpModule _tcpmodule = new TcpModule();
         public string[,] ip = new string[256, 2];
         bool c = true;
+        string myip = "0";
 
         public MainWindow()
         {
@@ -90,10 +91,7 @@ namespace FTrns
                 {
                     foreach (GatewayIPAddressInformation address in addresses)
                     {
-                        if (address.Address.ToString().StartsWith("192.168."))
-                        {
-                            return address.Address.ToString();
-                        }
+                        return address.Address.ToString();
                     }
                 }
             }
@@ -107,7 +105,9 @@ namespace FTrns
                 _tcpmodule.StartServer();
                 c = false;
             }
-            string ipnum = Adapters().Substring(0, 10);
+            myip = Adapters();
+            int li = myip.LastIndexOf('.');
+            string ipnum = myip.Substring(0, li + 1);
             Task[] cip = new Task[5]
             {
                 new Task(()=>Start(ipnum, 0, 51)),
@@ -156,7 +156,7 @@ namespace FTrns
             catch (Exception m)
             {
                 if (m.Message == "Индекс находился вне границ массива.") System.Windows.MessageBox.Show("Выберите адресата");
-                else System.Windows.MessageBox.Show("Не удалось отправить файл\n" + "Ошибка:" + m.Message);
+                else System.Windows.MessageBox.Show("Не удалось отправить файл\n" + "Ошибка: " + m.Message);
             }
         }
 
