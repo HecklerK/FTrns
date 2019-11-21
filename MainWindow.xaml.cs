@@ -88,7 +88,6 @@ namespace FTrns
                 GatewayIPAddressInformationCollection addresses = adapterProperties.GatewayAddresses;
                 if (addresses.Count > 0)
                 {
-                    Console.WriteLine(adapter.Description);
                     foreach (GatewayIPAddressInformation address in addresses)
                     {
                         if (address.Address.ToString().StartsWith("192.168."))
@@ -99,11 +98,6 @@ namespace FTrns
                 }
             }
             return "192.168.0.1";
-        }
-
-        async void StartAsync(string ipn, int a, int b)
-        {
-            await Task.Run(() => Start(ipn, a, b));
         }
 
         private void Check(object sender, EventArgs e)
