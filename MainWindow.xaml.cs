@@ -47,7 +47,7 @@ namespace FTrns
                 t = PingCheck(ipn);
                 if (t != null)
                 {
-                    for (int p = c; p <= j; p++)
+                    for (int p = 0; p <= j; p++)
                     {
                         if (ip[p, 0] == t)
                         {
@@ -61,7 +61,7 @@ namespace FTrns
                     }
                     if (!add)
                     {
-                        for (int p = c; p <= j; p++)
+                        for (int p = 0; p <= j; p++)
                         {
                             if (ip[p, 0] == null)
                             {
