@@ -238,7 +238,6 @@ namespace TcpSendFiles
                 header = null;
                 infobuffer = null;
                 total = null;
-                SendFileName = null;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 // Подтверждение успешной отправки
