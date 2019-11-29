@@ -16,9 +16,39 @@
                     </MenuItem>
                 </ContextMenu>
             </ListBox.ContextMenu>
+            <ListBox.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock>2. Выберите компьютер на который вы хотите отправить файл.</TextBlock>
+                        <TextBlock>Если компьютера нет в списке попробуйте еще подождать или</TextBlock>
+                        <TextBlock>добавьте ip самостоятельно при нажатии на правую кнопку</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </ListBox.ToolTip>
         </ListBox>
-        <Button Content="Выбор файла" Margin="10,10,219,0" VerticalAlignment="Top" Click="Button_Click" Background="#FFC10000" Foreground="White" BorderBrush="White"/>
-        <Button Content="Отправить" Margin="115,10,114,0" VerticalAlignment="Top" Click="Button_Click_1" Background="#FFC10000" Foreground="White" BorderBrush="White"/>
-        <Button Content="Отправить всем" Margin="220,10,9,0" VerticalAlignment="Top" Click="AllSend" Background="#FFC10000" Foreground="White" BorderBrush="White"/>
+        <Button Content="Выбор файла" Margin="10,10,219,0" VerticalAlignment="Top" Click="Button_Click" Background="#FFC10000" Foreground="White" BorderBrush="White">
+            <Button.ToolTip>
+                <ToolTip>
+                    1. Выберите файл который вы хотите отправить
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+        <Button Content="Отправить" Margin="115,10,114,0" VerticalAlignment="Top" Click="Button_Click_1" Background="#FFC10000" Foreground="White" BorderBrush="White">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock>3. Отправка файла. Если файл большого размера не закрывайте программу пока не удастоверитесь, что файл полностью отправился.</TextBlock>
+                        <TextBlock>Если не удалось отправить файл то попробуйте перезапустить программу на компьюторе куда вы хотите отправить файл</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+        <Button Content="Отправить всем" Margin="220,10,9,0" VerticalAlignment="Top" Click="AllSend" Background="#FFC10000" Foreground="White" BorderBrush="White">
+            <Button.ToolTip>
+                <ToolTip>
+                    2. Отпрака файла всем устройствам в списке.
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
     </Grid>
 </Window>
