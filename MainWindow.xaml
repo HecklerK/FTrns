@@ -12,6 +12,8 @@
                 <ContextMenu>
                     <MenuItem Header="Добавить адрес" Click="MenuItem_Click">
                     </MenuItem>
+                    <MenuItem Header="Удалить адрес" Click="MenuItem_Click_1">
+                    </MenuItem>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

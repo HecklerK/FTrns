@@ -7,15 +7,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Text;
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//  www.interestprograms.ru /программы, игры и их исходные коды/
-//  Протокол TCP. Часть 2. Отправка файлов и сообщений по сети. 
-//
-///////////////////////////////////////////////////////////////////////////////
-
 namespace TcpSendFiles
 {
     /// <summary>
@@ -150,10 +141,6 @@ namespace TcpSendFiles
                 _tcpClient.tcpClient.BeginConnect(IPAddress.Parse(ipserver), 15000, new AsyncCallback(ConnectCallback), _tcpClient);
                 modeNetwork = Mode.Client;
             }
-            else
-            {
-                SoundError();
-            }
         }
 
 
@@ -210,7 +197,7 @@ namespace TcpSendFiles
 
 
         public string SendFileName = null;
-        public void SendData()
+        public void SendData(string ipserver)
         {
             SendInfo si = new SendInfo();
             if (String.IsNullOrEmpty(SendFileName) == true) return;
@@ -255,11 +242,11 @@ namespace TcpSendFiles
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
                 // Подтверждение успешной отправки
-                MessageBox.Show("Файл отправился!");
+                MessageBox.Show("Файл отправился на IP: " + ipserver);
             }
             catch
             {
-                MessageBox.Show("Не удалось отправить файл");
+                MessageBox.Show("Не удалось отправить файл " + ipserver);
             }
             // Так как данный метод вызывается в отдельном потоке рациональней использовать синхронный метод отправки
             // Обнулим все ссылки на многобайтные объекты и попробуем очистить память
@@ -311,7 +298,6 @@ namespace TcpSendFiles
             catch
             {
                 // Обработка исключительных ошибок возникших при акцептирования клиента.
-                SoundError();
             }
         }
 
