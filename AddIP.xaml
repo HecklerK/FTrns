@@ -1,16 +1,27 @@
-﻿<Window x:Class="FTrns.AddIP"
+<Window x:Class="FTrns.AddIP"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FTrns"
         mc:Ignorable="d"
-        Title="Добавление IP" Height="172" Width="250" Background="#FF3C3C3C" Topmost="True" ResizeMode="NoResize">
+        Title="Добавление IP" Height="172" Width="250" Background="#FF3C3C3C" Topmost="True" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid>
-        <TextBox x:Name="t_name" Height="36" Margin="10,10,10,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top" FontSize="24" Background="#FFC10000" Foreground="White" BorderBrush="White" SelectionBrush="Red" GotFocus="t_name_GotFocus" LostFocus="t_name_LostFocus"/>
-        <TextBox x:Name="t_ip" Height="36" Margin="10,51,10,0" TextWrapping="Wrap" Text="IP - Адрес" VerticalAlignment="Top" FontSize="24" Background="#FFC10000" BorderBrush="White" Foreground="White" SelectionBrush="Red" GotFocus="t_ip_GotFocus" LostFocus="t_ip_LostFocus"/>
+        <TextBox x:Name="t_name" Height="36" Margin="10,10,10,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top" FontSize="24" Background="#FFC10000" Foreground="White" BorderBrush="White" SelectionBrush="Red" GotFocus="t_name_GotFocus" LostFocus="t_name_LostFocus">
+            <TextBox.ToolTip>
+                <ToolTip>
+                    Не называйте так же как ip адрес
+                </ToolTip>
+            </TextBox.ToolTip>
+        </TextBox>
+        <TextBox x:Name="t_ip" Height="36" Margin="10,51,10,0" TextWrapping="Wrap" Text="IP - Адрес" VerticalAlignment="Top" FontSize="24" Background="#FFC10000" BorderBrush="White" Foreground="White" SelectionBrush="Red" GotFocus="t_ip_GotFocus" LostFocus="t_ip_LostFocus">
+            <TextBox.ToolTip>
+                <ToolTip>
+                    Пример: 192.168.0.1
+                </ToolTip>
+            </TextBox.ToolTip>
+        </TextBox>
         <Button Content="Добавить" Margin="10,92,126,1" Background="#FFC10000" BorderBrush="White" Foreground="White" Click="Add"/>
         <Button Content="Отмена" Margin="126,92,10,1" Click="Button_Click" Foreground="White" Background="#FFC10000" BorderBrush="White"/>
-
     </Grid>
 </Window>
