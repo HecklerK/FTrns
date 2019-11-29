@@ -52,12 +52,12 @@ namespace FTrns
 
         private void t_ip_GotFocus(object sender, RoutedEventArgs e)
         {
-            t_ip.Text = "";
+            if (t_ip.Text == "IP - Адрес") t_ip.Text = "";
         }
 
         private void t_name_GotFocus(object sender, RoutedEventArgs e)
         {
-            t_name.Text = "";
+            if (t_name.Text == "Название") t_name.Text = "";
         }
 
         private void t_name_LostFocus(object sender, RoutedEventArgs e)

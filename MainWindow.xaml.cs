@@ -82,6 +82,7 @@ namespace FTrns
 
         string Adapters()
         {
+            string mip = "192.168.0.1";
             NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
             foreach (NetworkInterface adapter in adapters)
             {
@@ -91,11 +92,16 @@ namespace FTrns
                 {
                     foreach (GatewayIPAddressInformation address in addresses)
                     {
-                        return address.Address.ToString();
+                        if (address.Address.ToString().StartsWith("192.168."))
+                        {
+                            mip = address.Address.ToString();
+                            break;
+                        }
+                        else mip = address.Address.ToString();
                     }
                 }
             }
-            return "192.168.0.1";
+            return mip;
         }
 
         private void Check(object sender, EventArgs e)
@@ -149,8 +155,9 @@ namespace FTrns
             {
                 _tcpmodule.CloseSocket();
                 c = true;
-                _tcpmodule.ConnectClient(ip[list1.SelectedIndex, 1]);
-                Thread t = new Thread(_tcpmodule.SendData);
+                int i = list1.SelectedIndex;
+                _tcpmodule.ConnectClient(ip[i, 1]);
+                Thread t = new Thread(() => _tcpmodule.SendData(ip[i, 0]));
                 t.Start();
             }
             catch (Exception m)
@@ -211,9 +218,23 @@ namespace FTrns
         {
             _tcpmodule.CloseSocket();
             c = true;
-            _tcpmodule.ConnectClient(ip[list1.SelectedIndex, 1]);
-            Thread t = new Thread(_tcpmodule.SendData);
-            t.Start();
+            for (int i = 0; i < list1.Items.Count; i++)
+            {
+                _tcpmodule.ConnectClient(ip[i, 1]);
+                Thread t = new Thread(() => _tcpmodule.SendData(ip[i, 0]));
+                t.Start();
+                t.Join();
+            }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (list1.SelectedIndex != -1)
+            {
+                ip[list1.SelectedIndex, 0] = null;
+                ip[list1.SelectedIndex, 1] = null;
+                UpdList();
+            }
         }
     }
 }
