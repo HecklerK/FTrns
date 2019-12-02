@@ -189,8 +189,6 @@ namespace TcpSendFiles
             }
 
             byte[] byteheader = Encoding.Default.GetBytes(header);
-
-
             return byteheader;
         }
 
@@ -321,7 +319,6 @@ namespace TcpSendFiles
                 // Обработка ошибок подключения
                 DisconnectClient();
                 result = "Подключение провалено!";
-                SoundError();
             }
 
             // Активация события успешного или неуспешного подключения к серверу,
