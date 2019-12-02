@@ -26,7 +26,6 @@ namespace TcpSendFiles
         {
             get { return _sendinfo; }
         }
-
     }
 
     
