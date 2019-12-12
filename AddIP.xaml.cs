@@ -52,7 +52,7 @@ namespace FTrns
 
         private void t_ip_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (t_ip.Text == "IP - Адрес") t_ip.Text = "";
+            if (t_ip.Text == "IP - Адрес" || t_ip.Text == "Не правильный ip") t_ip.Text = "";
         }
 
         private void t_name_GotFocus(object sender, RoutedEventArgs e)
@@ -71,10 +71,10 @@ namespace FTrns
             if (ip.Length < 4) t_ip.Text = "Не правильный ip";
             else
             {
-                if (Convert.ToInt32(ip[0]) <= 0 || Convert.ToInt32(ip[0]) > 255) t_ip.Text = "Не правильный ip";
-                if (Convert.ToInt32(ip[1]) <= 0 || Convert.ToInt32(ip[1]) > 255) t_ip.Text = "Не правильный ip";
-                if (Convert.ToInt32(ip[2]) <= 0 || Convert.ToInt32(ip[2]) > 255) t_ip.Text = "Не правильный ip";
-                if (Convert.ToInt32(ip[3]) <= 0 || Convert.ToInt32(ip[3]) > 255) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[0]) < 0 || Convert.ToInt32(ip[0]) > 255) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[1]) < 0 || Convert.ToInt32(ip[1]) > 255) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[2]) < 0 || Convert.ToInt32(ip[2]) > 255) t_ip.Text = "Не правильный ip";
+                if (Convert.ToInt32(ip[3]) < 0 || Convert.ToInt32(ip[3]) > 255) t_ip.Text = "Не правильный ip";
             }
         }
     }

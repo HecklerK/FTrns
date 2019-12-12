@@ -21,7 +21,7 @@
                 </ToolTip>
             </TextBox.ToolTip>
         </TextBox>
-        <Button Content="Добавить" Margin="10,92,126,1" Background="#FFC10000" BorderBrush="White" Foreground="White" Click="Add"/>
-        <Button Content="Отмена" Margin="126,92,10,1" Click="Button_Click" Foreground="White" Background="#FFC10000" BorderBrush="White"/>
+        <Button Content="Добавить" Margin="10,92,126,10" Background="#FFC10000" BorderBrush="White" Foreground="White" Click="Add"/>
+        <Button Content="Отмена" Margin="126,92,10,10" Click="Button_Click" Foreground="White" Background="#FFC10000" BorderBrush="White"/>
     </Grid>
 </Window>
